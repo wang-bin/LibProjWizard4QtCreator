@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**************************************************************************
+**
+** Copyright (c) 2012 Wang Bin.
+** Contact: Wang Bin (wbsecg1@gmail.com)
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 2 of the License, or
+** (at your option) any later version.
+
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+
+** You should have received a copy of the GNU General Public License along
+** with this program; if not, write to the Free Software Foundation, Inc.,
+** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+**
+**************************************************************************/
+
+Custom library project wizard configuration file. Note that by convention, the project file goes last.
+The "class" and "firstpage" attributes specify that it is a Qt 4 wizard and
+leave room for the Qt 4 target page.
+-->
+<wizard version="1" kind="project"
+		class="qt4project" firstpage="10"
+		id="R.LibraryExtend" category="G.Libraries">
+	<icon>console.png</icon>
+	<description>Creates a library can be easily used in other projects, including a test application for this library.</description>
+	<description xml:lang="zh">创建一个方便被其他工程使用的库，包含库的测试程序。</description>
+	<displayname>Perfect library soluton</displayname>;
+	<displayname xml:lang="zh">完美的库解决方案</displayname>;
+	<displaycategory>Libraries</displaycategory>
+	<files>
+		<file source="src/libunknown.pro" target="src/lib%ProjectName%.pro" openeditor="true"/>
+		<file source="src/libunknown.pri" target="src/lib%ProjectName%.pri" openeditor="true"/>
+		<file source="src/unknown_global.h" target="src/%ProjectName:l%_global.h" openeditor="true"/>
+		<file source="src/unknown.h" target="src/%ProjectName:l%.h" openeditor="true"/>
+		<file source="src/unknown.cpp" target="src/%ProjectName:l%.cpp" openeditor="true"/>
+		<file source="test/tst_unknown.pro" target="test/tst_%ProjectName%.pro" openeditor="true"/>
+		<file source="test/main.cpp" target="test/main.cpp" openeditor="true"/>
+		<file source="project.pro" target="%ProjectName%.pro" openproject="true"/>
+		<file source="common.pri" openeditor="true"/>
+		<file source="README" openeditor="true"/>
+	</files>
+	<!-- Create a 2nd wizard page with parameters -->
+	<fieldpagetitle>Extended Library Parameters</fieldpagetitle>
+	<fieldpagetitle xml:lang="zh_CN">库的参数</fieldpagetitle>
+	<fields>
+		<field mandatory="true" name="LIB_VERSION">
+			<fieldcontrol class="QLineEdit" validator='^[^"]+$'
+						  defaulttext="1.0.0" />
+			<fielddescription>Library version</fielddescription>
+			<fielddescription xml:lang="zh">库版本</fielddescription>
+		</field>
+	<!-- Checkbox technique 1: Comment out gui in profile according to user's wishes -->
+		<field name="CONSOLE">
+			<fieldcontrol class="QCheckBox" truevalue="# " falsevalue=""/>
+			<fielddescription>No Gui</fielddescription>
+        </field>
+		<!-- ComboBox technique 2: Use preprocessor for profile according to user's wishes -->
+		<field name="LINKTYPE">
+			<fieldcontrol class="QComboBox" defaultindex="0">
+				<comboentries>
+					<comboentry value="0">
+						<comboentrytext>Shared library</comboentrytext>
+						<comboentrytext xml:lang="zh">共享库</comboentrytext>
+					</comboentry>
+					<comboentry value="1">
+						<comboentrytext>Static library</comboentrytext>
+						<comboentrytext xml:lang="zh">静态库</comboentrytext>
+					</comboentry>
+				</comboentries>
+			</fieldcontrol>
+			<fielddescription>Link type</fielddescription>
+			<fielddescription xml:lang="zh">链接类型</fielddescription>
+		</field>
+    </fields>
+</wizard>
