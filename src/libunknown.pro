@@ -1,6 +1,8 @@
 TEMPLATE = lib
-%CONSOLE%QT -= gui
-@if "%CONSOLE%" == "true"
+
+QT += %CORE%%GUI%%OPENGL%%NETWORK%%XML%%XMLPATTERNS%%DBUS%%SCRIPT%%SCRIPTTOOLS%%SQL%%SVG%%WEBKIT%%PHONON%%MULTIMEDIA%%TEST%
+@if "%GUI%" == ""
+QT       -= gui
 CONFIG   += console
 CONFIG   -= app_bundle
 @endif

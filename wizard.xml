@@ -47,19 +47,75 @@ leave room for the Qt 4 target page.
 		<file source="README" openeditor="true"/>
 	</files>
 	<!-- Create a 2nd wizard page with parameters -->
-	<fieldpagetitle>Extended Library Parameters</fieldpagetitle>
-	<fieldpagetitle xml:lang="zh_CN">库的参数</fieldpagetitle>
+	<fieldpagetitle>Other</fieldpagetitle>
+	<fieldpagetitle xml:lang="zh_CN">其他</fieldpagetitle>
 	<fields>
 		<field mandatory="true" name="LIB_VERSION">
-			<fieldcontrol class="QLineEdit" validator='^[^"]+$'
+			<fieldcontrol class="QLineEdit"
 						  defaulttext="1.0.0" />
 			<fielddescription>Library version</fielddescription>
 			<fielddescription xml:lang="zh">库版本</fielddescription>
 		</field>
 	<!-- Checkbox technique 1: Comment out gui in profile according to user's wishes -->
-		<field name="CONSOLE">
-			<fieldcontrol class="QCheckBox" truevalue="# " falsevalue=""/>
-			<fielddescription>No Gui</fielddescription>
+		<field name="CORE">
+			<fieldcontrol class="QCheckBox" truevalue="core " falsevalue=""/>
+			<fielddescription>QtCore</fielddescription>
+        </field>
+        <field name="GUI">
+			<fieldcontrol class="QCheckBox" truevalue="gui " falsevalue=""/>
+			<fielddescription>QtGui</fielddescription>
+        </field>
+        <field name="OPENGL">
+			<fieldcontrol class="QCheckBox" truevalue="opengl " falsevalue=""/>
+			<fielddescription>QtOpenGL</fielddescription>
+        </field>
+        <field name="NETWORK">
+			<fieldcontrol class="QCheckBox" truevalue="network " falsevalue=""/>
+			<fielddescription>QtNetwork</fielddescription>
+        </field>
+        <field name="XML">
+			<fieldcontrol class="QCheckBox" truevalue="xml " falsevalue=""/>
+			<fielddescription>QtXml</fielddescription>
+        </field>
+        <field name="XMLPATTERNS">
+			<fieldcontrol class="QCheckBox" truevalue="xmlpatterns " falsevalue=""/>
+			<fielddescription>QtXmlPatterns</fielddescription>
+        </field>
+        <field name="DBUS">
+			<fieldcontrol class="QCheckBox" truevalue="dbus " falsevalue=""/>
+			<fielddescription>QtDBus</fielddescription>
+        </field>
+        <field name="SQL">
+			<fieldcontrol class="QCheckBox" truevalue="sql " falsevalue=""/>
+			<fielddescription>QtSql</fielddescription>
+        </field>
+        <field name="SCRIPT">
+			<fieldcontrol class="QCheckBox" truevalue="script " falsevalue=""/>
+			<fielddescription>QtScript</fielddescription>
+        </field>
+         <field name="SCRIPTTOOLS">
+			<fieldcontrol class="QCheckBox" truevalue="scripttools " falsevalue=""/>
+			<fielddescription>QtScriptTools</fielddescription>
+        </field>
+         <field name="SVG">
+			<fieldcontrol class="QCheckBox" truevalue="svg " falsevalue=""/>
+			<fielddescription>QtSvg</fielddescription>
+        </field>
+		<field name="WEBKIT">
+			<fieldcontrol class="QCheckBox" truevalue="webkit " falsevalue=""/>
+			<fielddescription>QtWebkit</fielddescription>
+        </field>
+        <field name="PHONON">
+			<fieldcontrol class="QCheckBox" truevalue="phonon " falsevalue=""/>
+			<fielddescription>Phonon</fielddescription>
+        </field>
+        <field name="TEST">
+			<fieldcontrol class="QCheckBox" truevalue="test " falsevalue=""/>
+			<fielddescription>QtTest</fielddescription>
+        </field>
+        <field name="MULTIMEDIA">
+			<fieldcontrol class="QCheckBox" truevalue="multimedia " falsevalue=""/>
+			<fielddescription>QtMultimedia</fielddescription>
         </field>
 		<!-- ComboBox technique 2: Use preprocessor for profile according to user's wishes -->
 		<field name="LINKTYPE">
