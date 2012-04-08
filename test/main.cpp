@@ -19,7 +19,7 @@
 
 #include "%ProjectName:l%.h"
 
-int main(int, char **)
+int main(int argc, char **argv)
 {
     %ProjectName% tst;
     return 0;
