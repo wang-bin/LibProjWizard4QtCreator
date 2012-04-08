@@ -5,5 +5,10 @@ This library can be easily included by other projects. Just include the pri file
 Clone into QtCreator/share/qtcreator/templates/wizards/libproj
 Restart your qtcreator. Then you can start with "File > New File or Project > Libraries > Perfect library soluton".
 
+TODO:
+1.install files, dir selection
+2.version.h
+3.libxx.pri read version.h
+
 wbsecg1@gmail.com
 2012-02-19
