@@ -118,8 +118,10 @@ defineReplace(qtSharedLib) {
 	unset(LIB_FULLNAME)
 	LIB_FULLNAME = $$qtLibName($$1, $$2)
 	win32: LIB_FULLNAME = $$member(LIB_FULLNAME, 0).dll
-	else: LIB_FULLNAME = lib$$member(LIB_FULLNAME, 0).so
-	#macx: TARGET_BASEPATH = $${TARGET_BASEPATH}.$${QMAKE_EXTENSION_SHLIB} #default_post.prf
+	else {
+		macx|ios: LIB_FULLNAME = lib$$member(LIB_FULLNAME, 0).$${QMAKE_EXTENSION_SHLIB} #default_post.prf
+		else: LIB_FULLNAME = lib$$member(LIB_FULLNAME, 0).so
+	}
 	return($$LIB_FULLNAME)
 }
 
