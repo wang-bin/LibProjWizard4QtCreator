@@ -51,8 +51,8 @@ PROJECT_TARGETNAME = $$qtLibraryTarget($$NAME)
 TEMPLATE -= fakelib
 
 
-include(../common.pri)
-#load(../common.pri)
+include($${PROJECTROOT}/common.pri)
+#load($${PROJECTROOT}/common.pri)
 CONFIG += depend_includepath #?
 
 PROJECT_SRCPATH = $$PWD

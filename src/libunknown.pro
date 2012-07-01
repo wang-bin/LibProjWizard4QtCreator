@@ -5,10 +5,12 @@ QT += %CORE%%GUI%%OPENGL%%NETWORK%%XML%%XMLPATTERNS%%DBUS%%SCRIPT%%SCRIPTTOOLS%%
 QT       -= gui
 CONFIG   += console
 CONFIG   -= app_bundle
+@else
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 @endif
 
 CONFIG *= %ProjectName:l%-buildlib
-
+PROJECTROOT = $$PWD/..
 !include(lib%ProjectName%.pri): error(could not find lib%ProjectName%.pri)
 
 #src

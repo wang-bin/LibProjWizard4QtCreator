@@ -6,6 +6,7 @@ CONFIG   -= app_bundle
 @endif
 
 TARGET = tst_%ProjectName:l%
+PROJECTROOT = $$PWD/..
 include(../src/lib%ProjectName%.pri)
 
 #win32:LIBS += -lUser32
