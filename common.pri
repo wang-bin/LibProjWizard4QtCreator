@@ -16,6 +16,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
+isEmpty(COMMON_PRI_INCLUDED): { #begin COMMON_PRI_INCLUDED
 
 CONFIG += profile
 #profiling, -pg is not supported for msvc
@@ -104,7 +105,6 @@ defineReplace(qtLibName) {
 	return($$RET)
 }
 
-
 #fakelib
 defineReplace(qtStaticLib) {
 	unset(LIB_FULLNAME)
@@ -131,8 +131,6 @@ defineReplace(qtLongName) {
 	return($$LONG_NAME)
 }
 
-
-
 ##############################paths####################################
 #message(pwd=$$PWD)			#this file dir
 #message(out pwd=$$OUT_PWD)	#Makefile dir
@@ -142,7 +140,7 @@ BUILD_DIR=$$PWD
 
 isEqual(TEMPLATE, app) {
 	DESTDIR = $$BUILD_DIR/bin
-	!isEqual(COMMON_PRI_INCLUDED, 1): TARGET = $$qtLongName($$TARGET)
+	TARGET = $$qtLongName($$TARGET)
 	EXE_EXT =
 	win32: EXE_EXT = .exe
 	CONFIG(release, debug|release):
@@ -161,4 +159,18 @@ UI_DIR  = $$BUILD_DIR/.ui/$${QT_VERSION}
 #before target name changed
 #TRANSLATIONS += i18n/$${TARGET}_zh-cn.ts #i18n/$${TARGET}_zh_CN.ts
 
+message($$_PRO_FILE_PWD_)
+message($$_PRO_FILE_)
+message($$OUT_PWD)
+message($$PWD)
+message($$IN_PWD)
+message($$_FILE_)
+message($$_LINE_)
+message($$QMAKE_HOST.version)
+message($$QMAKE_HOST.name)
+message($$QMAKE_HOST.os)
+message($$QMAKE_HOST.arch)
+message($$BUILD_NAME)
+
 COMMON_PRI_INCLUDED = 1
+} #end COMMON_PRI_INCLUDED
