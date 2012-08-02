@@ -25,32 +25,37 @@
 #    TEMPLATE = lib
 #    QT -= gui
 #    CONFIG *= xx-buildlib
+#    PROJECTROOT = $$PWD/..
+#    STATICLINK = 1 #or 0
 #    include(libXX.pri)
+#    include($${PROJECTROOT}/common.pri)
 #    HEADERS = ...
 #    SOURCES = ...
 #    ...
 # the content of other pro using this library is:
 #
 #    TEMPLATE = app
+#    PROJECTROOT = $$PWD/..
+#    STATICLINK = 1 #or 0
 #    include(dir_of_XX/libXX.pri)
+#    include($${PROJECTROOT}/common.pri)
 #    HEADERS = ...
 #    SOURCES = ...
 #
 
 
 !isEmpty(LIB%ProjectName:u%_PRI_INCLUDED):error("lib%ProjectName%.pri already included")
-LIBQDEVICEWATCHER_PRI_INCLUDED = 1
+LIB%ProjectName:u%_PRI_INCLUDED = 1
 
-staticlink = %LINKTYPE%  #1 or 0. use static lib or not
 LIB_VERSION = %LIB_VERSION% #0.x.y may be wrong for dll
-#QT += network
+isEmpty(STATICLINK): STATICLINK = 0  #1 or 0. use static lib or not
 
 NAME = %ProjectName%
 TEMPLATE += fakelib
 PROJECT_TARGETNAME = $$qtLibraryTarget($$NAME)
 TEMPLATE -= fakelib
 
-
+isEmpty(PROJECTROOT): PROJECTROOT = $$PWD/..
 include($${PROJECTROOT}/common.pri)
 #load($${PROJECTROOT}/common.pri)
 CONFIG += depend_includepath #?
@@ -68,7 +73,7 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 	#The following may not need to change
 	CONFIG *= link_prl
 	LIBS += -L$$PROJECT_LIBDIR -l$$qtLibName($$NAME)
-	isEqual(staticlink, 1) {
+	isEqual(STATICLINK, 1) {
 		PRE_TARGETDEPS += $$PROJECT_LIBDIR/$$qtStaticLib($$NAME)
 	} else {
 		win32 {
@@ -91,7 +96,7 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 	DESTDIR= $$PROJECT_LIBDIR
 
 	CONFIG *= create_prl #
-	isEqual(staticlink, 1) {
+	isEqual(STATICLINK, 1) {
 		CONFIG -= shared dll ##otherwise the following shared is true, why?
 		CONFIG *= staticlib
 	}
@@ -131,4 +136,3 @@ unset(LIB_VERSION)
 unset(PROJECT_SRCPATH)
 unset(PROJECT_LIBDIR)
 unset(PROJECT_TARGETNAME)
-unset(staticlink)

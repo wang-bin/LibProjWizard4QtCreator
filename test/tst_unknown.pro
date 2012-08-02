@@ -7,7 +7,9 @@ CONFIG   -= app_bundle
 
 TARGET = tst_%ProjectName:l%
 PROJECTROOT = $$PWD/..
-include(../src/lib%ProjectName%.pri)
+STATICLINK = %LINKTYPE%
+include($$PROJECTROOT/src/lib%ProjectName%.pri)
+include($${PROJECTROOT}/common.pri)  #remove it also works?
 
 #win32:LIBS += -lUser32
 
