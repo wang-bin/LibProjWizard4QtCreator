@@ -64,6 +64,11 @@ PROJECT_SRCPATH = $$PWD
 PROJECT_LIBDIR = $$qtLongName($$PWD/../lib)
 #PROJECT_LIBDIR = $$PWD/../bin #for win dll
 
+#for system include path
+*msvc* {
+} else {
+    QMAKE_CXXFLAGS += -isystem $$PROJECT_SRCPATH/..
+}
 INCLUDEPATH += $$PROJECT_SRCPATH
 DEPENDPATH += $$PROJECT_SRCPATH
 QMAKE_LFLAGS_RPATH += #will append to rpath dir
