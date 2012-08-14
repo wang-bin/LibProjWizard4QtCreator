@@ -44,13 +44,14 @@
 #
 
 
-!isEmpty(LIB%ProjectName:u%_PRI_INCLUDED):error("lib%ProjectName%.pri already included")
-LIB%ProjectName:u%_PRI_INCLUDED = 1
+NAME = %ProjectName%
+!isEmpty(LIB$$upper($$NAME)_PRI_INCLUDED):error("lib$${NAME}.pri already included"), unset(NAME)
+#!isEmpty(LIB%ProjectName:u%_PRI_INCLUDED):error("lib%ProjectName%.pri already included")
+eval(LIB$$upper($$NAME)_PRI_INCLUDED = 1)
 
 LIB_VERSION = %LIB_VERSION% #0.x.y may be wrong for dll
 isEmpty(STATICLINK): STATICLINK = 0  #1 or 0. use static lib or not
 
-NAME = %ProjectName%
 TEMPLATE += fakelib
 PROJECT_TARGETNAME = $$qtLibraryTarget($$NAME)
 TEMPLATE -= fakelib
@@ -73,8 +74,9 @@ INCLUDEPATH += $$PROJECT_SRCPATH
 DEPENDPATH += $$PROJECT_SRCPATH
 QMAKE_LFLAGS_RPATH += #will append to rpath dir
 
-!%ProjectName:l%-buildlib {
-
+#eval() ?
+#!%ProjectName:l%-buildlib {
+!contains(CONFIG, $$lower($$NAME)-buildlib) {
 	#The following may not need to change
 	CONFIG *= link_prl
 	LIBS += -L$$PROJECT_LIBDIR -l$$qtLibName($$NAME)
@@ -111,9 +113,8 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 	}
 
 	shared {
-		DLLDESTDIR = ../bin #copy shared lib there
-		CONFIG(release, debug|release):
-			!isEmpty(QMAKE_STRIP): QMAKE_POST_LINK = -$$QMAKE_STRIP $$PROJECT_LIBDIR/$$qtSharedLib($$NAME)
+		DLLDESTDIR = $${PROJECTROOT}/bin #copy shared lib there
+		CONFIG(release, debug|release): !isEmpty(QMAKE_STRIP): QMAKE_POST_LINK = -$$QMAKE_STRIP $$PROJECT_LIBDIR/$$qtSharedLib($$NAME)
 
 		#copy from the pro creator creates.
 		symbian {
