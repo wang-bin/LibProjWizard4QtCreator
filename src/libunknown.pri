@@ -86,9 +86,9 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 			PRE_TARGETDEPS += $$PROJECT_LIBDIR/$$qtSharedLib($$NAME)
 # $$[QT_INSTALL_LIBS] and $$DESTDIR will be auto added to rpath
 # Current (sub)project dir is auto added to the first value as prefix. e.g. QMAKE_RPATHDIR = .. ==> -Wl,-rpath,ROOT/.. 
-# If we add "." to rpath then working dir will be searched
-# TODO: how to add executable dir?
-			unix: QMAKE_RPATHDIR += $$PROJECT_LIBDIR:. 
+# Executable dir search: g++ flag is -Wl,-R,'$ORIGIN', in makefile -Wl,-R,'$$ORIGIN'
+# Working dir search: "."
+			unix: QMAKE_RPATHDIR += $$PROJECT_LIBDIR:\'\$\$ORIGIN\':.
 		}
 	}
 } else {
