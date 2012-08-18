@@ -21,7 +21,6 @@
 # Usually what you need to change are: staticlink, LIB_VERSION, NAME and DLLDESTDIR.
 # And rename xx-buildlib and LIBXX_PRI_INCLUDED
 # the contents of libXX.pro is:
-#
 #    TEMPLATE = lib
 #    QT -= gui
 #    CONFIG *= xx-buildlib
@@ -33,7 +32,6 @@
 #    SOURCES = ...
 #    ...
 # the content of other pro using this library is:
-#
 #    TEMPLATE = app
 #    PROJECTROOT = $$PWD/..
 #    STATICLINK = 1 #or 0
@@ -42,7 +40,6 @@
 #    HEADERS = ...
 #    SOURCES = ...
 #
-
 
 NAME = %ProjectName%
 !isEmpty(LIB$$upper($$NAME)_PRI_INCLUDED):error("lib$${NAME}.pri already included"), unset(NAME)
@@ -87,15 +84,17 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 			PRE_TARGETDEPS += $$PROJECT_LIBDIR/$$qtSharedLib($$NAME, $$LIB_VERSION)
 		} else {
 			PRE_TARGETDEPS += $$PROJECT_LIBDIR/$$qtSharedLib($$NAME)
-			unix: QMAKE_RPATHDIR += $$DESTDIR:$$PROJECT_LIBDIR #executable's dir
+# $$[QT_INSTALL_LIBS] and $$DESTDIR will be auto added to rpath
+# Current (sub)project dir is auto added to the first value as prefix. e.g. QMAKE_RPATHDIR = .. ==> -Wl,-rpath,ROOT/.. 
+# If we add "." to rpath then working dir will be searched
+# TODO: how to add executable dir?
+			unix: QMAKE_RPATHDIR += $$PROJECT_LIBDIR:. 
 		}
 	}
 } else {
-	#Add your additional configuration first
+	#Add your additional configuration first. e.g.
 #	win32: LIBS += -lUser32
-
-
-	#The following may not need to change
+# The following may not need to change
 
 	#TEMPLATE = lib
 	VERSION = $$LIB_VERSION
@@ -106,8 +105,7 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 	isEqual(STATICLINK, 1) {
 		CONFIG -= shared dll ##otherwise the following shared is true, why?
 		CONFIG *= staticlib
-	}
-	else {
+	} else {
 		DEFINES += Q_DLL_LIBRARY #win32-msvc*
 		CONFIG *= shared #shared includes dll
 	}
@@ -135,7 +133,6 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 		}
 		INSTALLS += target
 	}
-
 }
 
 unset(LIB_VERSION)
