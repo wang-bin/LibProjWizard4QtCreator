@@ -59,7 +59,9 @@ include($${PROJECTROOT}/common.pri)
 CONFIG += depend_includepath #?
 
 PROJECT_SRCPATH = $$PWD
-PROJECT_LIBDIR = $$qtLongName($$PWD/../lib)
+BUILD_DIR=$$(BUILD_DIR)
+isEmpty(BUILD_DIR): BUILD_DIR=$$PWD/..
+PROJECT_LIBDIR = $$qtLongName($$BUILD_DIR/lib)
 #PROJECT_LIBDIR = $$PWD/../bin #for win dll
 
 #for system include path
@@ -67,8 +69,8 @@ PROJECT_LIBDIR = $$qtLongName($$PWD/../lib)
 } else {
     QMAKE_CXXFLAGS += -isystem $$PROJECT_SRCPATH/..
 }
-INCLUDEPATH += $$PROJECT_SRCPATH
-DEPENDPATH += $$PROJECT_SRCPATH
+INCLUDEPATH *= $$PROJECT_SRCPATH
+DEPENDPATH *= $$PROJECT_SRCPATH
 QMAKE_LFLAGS_RPATH += #will append to rpath dir
 
 #eval() ?
@@ -76,7 +78,7 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 !contains(CONFIG, $$lower($$NAME)-buildlib) {
 	#The following may not need to change
 	CONFIG *= link_prl
-	LIBS += -L$$PROJECT_LIBDIR -l$$qtLibName($$NAME)
+	LIBS *= -L$$PROJECT_LIBDIR -l$$qtLibName($$NAME)
 	isEqual(STATICLINK, 1) {
 		PRE_TARGETDEPS += $$PROJECT_LIBDIR/$$qtStaticLib($$NAME)
 	} else {

@@ -16,15 +16,16 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
+
 isEmpty(COMMON_PRI_INCLUDED): { #begin COMMON_PRI_INCLUDED
 
 CONFIG += profile
 #profiling, -pg is not supported for msvc
 debug:!*msvc*:profile {
-        QMAKE_CXXFLAGS_DEBUG += -pg
-        QMAKE_LFLAGS_DEBUG += -pg
-		QMAKE_CXXFLAGS_DEBUG = $$unique(QMAKE_CXXFLAGS_DEBUG)
-		QMAKE_LFLAGS_DEBUG = $$unique(QMAKE_LFLAGS_DEBUG)
+	QMAKE_CXXFLAGS_DEBUG += -pg
+	QMAKE_LFLAGS_DEBUG += -pg
+	QMAKE_CXXFLAGS_DEBUG = $$unique(QMAKE_CXXFLAGS_DEBUG)
+	QMAKE_LFLAGS_DEBUG = $$unique(QMAKE_LFLAGS_DEBUG)
 }
 
 #$$[TARGET_PLATFORM]
@@ -34,48 +35,48 @@ _ARCH =
 _EXTRA =
 
 unix {
-		_OS = _unix
-		*linux*: _OS = _linux
-		*maemo* {
-			_OS = _maemo
-			*maemo5*:_OS = _maemo5
-			*maemo6*:_OS = _maemo6
-		}
-		*meego*: _OS = _meego
-		!isEmpty(MEEGO_EDITION): _OS = _$$MEEGO_EDITION
+	_OS = _unix
+	*linux*: _OS = _linux
+	*maemo* {
+		_OS = _maemo
+		*maemo5*:_OS = _maemo5
+		*maemo6*:_OS = _maemo6
+	}
+	*meego*: _OS = _meego
+	!isEmpty(MEEGO_EDITION): _OS = _$$MEEGO_EDITION
 } else:wince* {
-		_OS = _wince
+	_OS = _wince
 } else:win32 { #true for wince
-		_OS = _win32
+	_OS = _win32
 } else:macx {
-		_OS = _macx
+	_OS = _macx
 }
 
 #*arm*: _ARCH = $${_ARCH}_arm
 contains(QT_ARCH, arm.*) {
-        _ARCH = $${_ARCH}_$${QT_ARCH}
+	_ARCH = $${_ARCH}_$${QT_ARCH}
 }
-*64:   _ARCH = $${_ARCH}_x64
+*64: _ARCH = $${_ARCH}_x64
 *llvm*: _EXTRA = _llvm
 #*msvc*:
 
 win32-msvc* {
-        #Don't warn about sprintf, fopen etc being 'unsafe'
-        DEFINES += _CRT_SECURE_NO_WARNINGS
+	#Don't warn about sprintf, fopen etc being 'unsafe'
+	DEFINES += _CRT_SECURE_NO_WARNINGS
 }
 
 #################################functions#########################################
 defineReplace(cleanPath) {
-    win32:1 ~= s|\\\\|/|g
-    contains(1, ^/.*):pfx = /
-    else:pfx =
-    segs = $$split(1, /)
-    out =
-    for(seg, segs) {
-        equals(seg, ..):out = $$member(out, 0, -2)
-        else:!equals(seg, .):out += $$seg
-    }
-    return($$join(out, /, $$pfx))
+	win32:1 ~= s|\\\\|/|g
+	contains(1, ^/.*):pfx = /
+	else:pfx =
+	segs = $$split(1, /)
+	out =
+	for(seg, segs) {
+		equals(seg, ..):out = $$member(out, 0, -2)
+		else:!equals(seg, .):out += $$seg
+	}
+	return($$join(out, /, $$pfx))
 }
 
 #Acts like qtLibraryTarget. From qtcreator.pri
@@ -105,6 +106,7 @@ defineReplace(qtLibName) {
 	return($$RET)
 }
 
+
 #fakelib
 defineReplace(qtStaticLib) {
 	unset(LIB_FULLNAME)
@@ -127,50 +129,42 @@ defineReplace(qtSharedLib) {
 
 defineReplace(qtLongName) {
 	unset(LONG_NAME)
-        LONG_NAME = $$1$${_OS}$${_ARCH}$${_EXTRA}
+		LONG_NAME = $$1$${_OS}$${_ARCH}$${_EXTRA}
 	return($$LONG_NAME)
 }
 
 ##############################paths####################################
-#message(pwd=$$PWD)			#this file dir
-#message(out pwd=$$OUT_PWD)	#Makefile dir
-#message(pro file=$$_PRO_FILE_)
-#message(pro file pwd=$$_PRO_FILE_PWD_)
-BUILD_DIR=$$PWD
+#TRANSLATIONS += i18n/$${TARGET}_zh-cn.ts i18n/$${TARGET}_zh_CN.ts
+
+BUILD_DIR=$$(BUILD_DIR)
+isEmpty(BUILD_DIR) {
+	BUILD_DIR=$$PWD
+	message(BUILD_DIR in env is empty. Use $$PWD)
+}
+message(BUILD_DIR=$$BUILD_DIR)
+
+#for Qt2, Qt3 which does not have QT_VERSION. Qt4: $$[QT_VERSION]
+MOC_DIR = $$BUILD_DIR/.moc/$$TARGET/$${QT_VERSION}
+RCC_DIR = $$BUILD_DIR/.rcc/$$TARGET/$${QT_VERSION}
+UI_DIR  = $$BUILD_DIR/.ui/$$TARGET/$${QT_VERSION}
+#obj is platform dependent
+OBJECTS_DIR = $$qtLongName($$BUILD_DIR/.obj/$$TARGET)
 
 isEqual(TEMPLATE, app) {
 	DESTDIR = $$BUILD_DIR/bin
 	TARGET = $$qtLongName($$TARGET)
 	EXE_EXT =
 	win32: EXE_EXT = .exe
-	CONFIG(release, debug|release):
-		!isEmpty(QMAKE_STRIP): QMAKE_POST_LINK = -$$QMAKE_STRIP $$DESTDIR/$${TARGET}$${EXE_EXT} #.exe in win
+	CONFIG(release, debug|release): !isEmpty(QMAKE_STRIP): QMAKE_POST_LINK = -$$QMAKE_STRIP $$DESTDIR/$${TARGET}$${EXE_EXT} #.exe in win
 }
 else: DESTDIR = $$qtLongName($$BUILD_DIR/lib)
 
-OBJECTS_DIR = $$qtLongName($$BUILD_DIR/.obj/)
- #for Qt2, Qt3 which does not have QT_VERSION. Qt4: $$[QT_VERSION]
-MOC_DIR = $$BUILD_DIR/.moc/$${QT_VERSION}
-RCC_DIR = $$BUILD_DIR/.rcc/$${QT_VERSION}
-UI_DIR  = $$BUILD_DIR/.ui/$${QT_VERSION}
-
 !build_pass:message(target: $$DESTDIR/$$TARGET)
 
-#before target name changed
+COMMON_PRI_INCLUDED = 1
+
+} #end COMMON_PRI_INCLUDED
+	#before target name changed
 #TRANSLATIONS += i18n/$${TARGET}_zh-cn.ts #i18n/$${TARGET}_zh_CN.ts
 
-message($$_PRO_FILE_PWD_)
-message($$_PRO_FILE_)
-message($$OUT_PWD)
-message($$PWD)
-message($$IN_PWD)
-message($$_FILE_)
-message($$_LINE_)
-message($$QMAKE_HOST.version)
-message($$QMAKE_HOST.name)
-message($$QMAKE_HOST.os)
-message($$QMAKE_HOST.arch)
-message($$BUILD_NAME)
 
-COMMON_PRI_INCLUDED = 1
-} #end COMMON_PRI_INCLUDED
