@@ -83,17 +83,17 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 		PRE_TARGETDEPS += $$PROJECT_LIBDIR/$$qtStaticLib($$NAME)
 	} else {
 		win32 {
-			PRE_TARGETDEPS += $$PROJECT_LIBDIR/$$qtSharedLib($$NAME, $$LIB_VERSION)
+			PRE_TARGETDEPS *= $$PROJECT_LIBDIR/$$qtSharedLib($$NAME, $$LIB_VERSION)
 		} else {
-			PRE_TARGETDEPS += $$PROJECT_LIBDIR/$$qtSharedLib($$NAME)
+			PRE_TARGETDEPS *= $$PROJECT_LIBDIR/$$qtSharedLib($$NAME)
 # $$[QT_INSTALL_LIBS] and $$DESTDIR will be auto added to rpath
 # Current (sub)project dir is auto added to the first value as prefix. e.g. QMAKE_RPATHDIR = .. ==> -Wl,-rpath,ROOT/.. 
 # Executable dir search: ld -z origin, g++ -Wl,-R,'$ORIGIN', in makefile -Wl,-R,'$$ORIGIN'
 # Working dir search: "."
 # TODO: for macx. see qtcreator/src/rpath.pri. search exe dir first(use QMAKE_LFLAGS = '$$RPATH_FLAG' $$QMAKE_LFLAGS)
 			unix:!macx {
-				QMAKE_RPATHDIR += $$PROJECT_LIBDIR:\'\$\$ORIGIN\':\'\$\$ORIGIN/lib\':.
-				QMAKE_LFLAGS += -Wl,-z,origin
+				QMAKE_RPATHDIR *= $$PROJECT_LIBDIR:\'\$\$ORIGIN\':\'\$\$ORIGIN/lib\':.
+				QMAKE_LFLAGS *= -Wl,-z,origin
 			}
 		}
 	}
