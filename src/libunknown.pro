@@ -11,10 +11,16 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG *= %ProjectName:l%-buildlib
 #var with '_' can not pass to pri?
-PROJECTROOT = $$PWD/..
 STATICLINK = %LINKTYPE%
+PROJECTROOT = $$PWD/..
+isEmpty(BUILD_DIR):BUILD_DIR=$$(BUILD_DIR)
+isEmpty(BUILD_DIR):BUILD_DIR=$$[BUILD_DIR]
+isEmpty(BUILD_DIR):BUILD_IN_SRC = yes
+!isEmpty(BUILD_IN_SRC):BUILD_DIR=$$PROJECTROOT/out
+include($${PROJECTROOT}/common.pri)
+
+!isEmpty(BUILD_IN_SRC):BUILD_DIR=$$PROJECTROOT/out
 !include(lib%ProjectName%.pri): error(could not find lib%ProjectName%.pri)
-#include($${PROJECTROOT}/common.pri) #remove it also works?
 
 #src
 unix: SOURCES += 

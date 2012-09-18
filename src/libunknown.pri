@@ -59,10 +59,10 @@ include($${PROJECTROOT}/common.pri)
 CONFIG += depend_includepath #?
 
 PROJECT_SRCPATH = $$PWD
-BUILD_DIR=$$(BUILD_DIR)
-isEmpty(BUILD_DIR): BUILD_DIR=$$PWD/..
+isEmpty(BUILD_DIR):BUILD_DIR=$$(BUILD_DIR)
+isEmpty(BUILD_DIR):BUILD_DIR=$$[BUILD_DIR]
+isEmpty(BUILD_DIR):BUILD_DIR=$$PWD/..
 PROJECT_LIBDIR = $$qtLongName($$BUILD_DIR/lib)
-#PROJECT_LIBDIR = $$PWD/../bin #for win dll
 
 #for system include path
 *msvc* {
@@ -117,7 +117,7 @@ QMAKE_LFLAGS_RPATH += #will append to rpath dir
 	}
 
 	shared {
-		!isEqual(DESTDIR, $${PROJECTROOT}/bin): DLLDESTDIR = $${PROJECTROOT}/bin #copy shared lib there
+		!isEqual(DESTDIR, $$BUILD_DIR/bin): DLLDESTDIR = $$BUILD_DIR/bin #copy shared lib there
 		CONFIG(release, debug|release): !isEmpty(QMAKE_STRIP): QMAKE_POST_LINK = -$$QMAKE_STRIP $$PROJECT_LIBDIR/$$qtSharedLib($$NAME)
 
 		#copy from the pro creator creates.

@@ -4,3 +4,13 @@
 2. deploy.pri
 
 3. version 0.x.x error
+
+4. make deb for all platforms. BUILDROOT=build/projname. MOC_DIR=$$BUILDROOT/.moc
+POST_LINK=copy to bin
+DLLDESTDIR
+
+export BUILD_DIR
+$$(BUILD_DIR)/.obj/$PROJECT/
+copy common.pri to BUILD_DIR
+
+dll's rpath(not only exe's)
