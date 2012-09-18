@@ -16,10 +16,8 @@ PROJECTROOT = $$PWD/..
 isEmpty(BUILD_DIR):BUILD_DIR=$$(BUILD_DIR)
 isEmpty(BUILD_DIR):BUILD_DIR=$$[BUILD_DIR]
 isEmpty(BUILD_DIR):BUILD_IN_SRC = yes
-!isEmpty(BUILD_IN_SRC):BUILD_DIR=$$PROJECTROOT/out
+!isEmpty(BUILD_IN_SRC):BUILD_DIR=$$OUT_PWD/../out
 include($${PROJECTROOT}/common.pri)
-
-!isEmpty(BUILD_IN_SRC):BUILD_DIR=$$PROJECTROOT/out
 !include(lib%ProjectName%.pri): error(could not find lib%ProjectName%.pri)
 
 #src

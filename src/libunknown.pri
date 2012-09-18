@@ -61,7 +61,7 @@ CONFIG += depend_includepath #?
 PROJECT_SRCPATH = $$PWD
 isEmpty(BUILD_DIR):BUILD_DIR=$$(BUILD_DIR)
 isEmpty(BUILD_DIR):BUILD_DIR=$$[BUILD_DIR]
-isEmpty(BUILD_DIR):BUILD_DIR=$$PWD/..
+isEmpty(BUILD_DIR):BUILD_DIR=$$OUT_PWD #remove these?
 PROJECT_LIBDIR = $$qtLongName($$BUILD_DIR/lib)
 
 #for system include path
