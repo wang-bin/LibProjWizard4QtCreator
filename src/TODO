@@ -1,0 +1,4 @@
+1. dll export
+2. unique version macros, vars and funcs for the library
+3. deploy.pri
+4. use * instead of +
