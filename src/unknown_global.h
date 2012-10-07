@@ -37,9 +37,10 @@
 /*! Stringify \a x, perform macro expansion. */
 #define TOSTR(x)  _TOSTR(x)
 
-static const char* const version_string = TOSTR(MAJOR)"."TOSTR(MINOR)"."TOSTR(PATCH)"(" __DATE__", "__TIME__")";
-#define LIB_VERSION_STR			TOSTR(MAJOR)"."TOSTR(MINOR)"."TOSTR(PATCH)
-#define LIB_VERSION_STR_LONG	LIB_VERSION_STR"(" __DATE__", "__TIME__")"
+/* C++11 requires a space between literal and identifier */
+static const char* const version_string = TOSTR(MAJOR) "." TOSTR(MINOR) "." TOSTR(PATCH) "(" __DATE__ ", " __TIME__ ")";
+#define LIB_VERSION_STR		TOSTR(MAJOR) "." TOSTR(MINOR) "." TOSTR(PATCH)
+#define LIB_VERSION_STR_LONG	LIB_VERSION_STR "(" __DATE__ ", " __TIME__ ")"
 
 
 
