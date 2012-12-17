@@ -36,7 +36,7 @@ _EXTRA =
 
 unix {
 	_OS = _unix
-	macx: _OS = _macx
+	macx: _OS = _mac
 	else:*linux*: _OS = _linux
 	*maemo* {
 		_OS = _maemo
@@ -96,7 +96,7 @@ defineReplace(qtLibName) {
 	else: VERSION_EXT = $$2
 	!isEmpty(VERSION_EXT) {
 		VERSION_EXT = $$section(VERSION_EXT, ., 0, 0)
-		isEqual(VERSION_EXT, 0):unset(VERSION_EXT)
+		#isEqual(VERSION_EXT, 0):unset(VERSION_EXT)
 	}
 	RET = $${RET}$${VERSION_EXT}
 	unset(VERSION_EXT)
@@ -108,7 +108,7 @@ defineReplace(qtLibName) {
 defineReplace(qtStaticLib) {
 	unset(LIB_FULLNAME)
 	LIB_FULLNAME = $$qtLibName($$1, $$2)
-	*msvc*: LIB_FULLNAME = $$member(LIB_FULLNAME, 0).lib
+	*msvc*|win32-icc: LIB_FULLNAME = $$member(LIB_FULLNAME, 0).lib
 	else: LIB_FULLNAME = lib$$member(LIB_FULLNAME, 0).a
 	return($$LIB_FULLNAME)
 }
@@ -142,7 +142,7 @@ OBJECTS_DIR = $$qtLongName($$BUILD_DIR/.obj/$$TARGET)
 
 isEqual(TEMPLATE, app) {
 	DESTDIR = $$BUILD_DIR/bin
-	TARGET = $$qtLongName($$TARGET)
+#	TARGET = $$qtLongName($$TARGET)
 	EXE_EXT =
 	win32: EXE_EXT = .exe
 	CONFIG(release, debug|release): !isEmpty(QMAKE_STRIP): QMAKE_POST_LINK = -$$QMAKE_STRIP $$DESTDIR/$${TARGET}$${EXE_EXT} #.exe in win
