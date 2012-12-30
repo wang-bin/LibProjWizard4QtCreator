@@ -13,11 +13,8 @@ CONFIG *= %ProjectName:l%-buildlib
 #var with '_' can not pass to pri?
 STATICLINK = %LINKTYPE%
 PROJECTROOT = $$PWD/..
-isEmpty(BUILD_DIR):BUILD_DIR=$$(BUILD_DIR)
-isEmpty(BUILD_DIR):BUILD_DIR=$$[BUILD_DIR]
-isEmpty(BUILD_DIR):BUILD_IN_SRC = yes
-!isEmpty(BUILD_IN_SRC):BUILD_DIR=$$OUT_PWD/../out
 include($${PROJECTROOT}/common.pri)
+preparePaths($$OUT_PWD/../out)
 !include(lib%ProjectName%.pri): error(could not find lib%ProjectName%.pri)
 
 #src

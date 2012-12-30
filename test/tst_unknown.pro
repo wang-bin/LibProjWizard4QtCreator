@@ -8,12 +8,8 @@ CONFIG   -= app_bundle
 TARGET = tst_%ProjectName:l%
 STATICLINK = %LINKTYPE%
 PROJECTROOT = $$PWD/..
-isEmpty(BUILD_DIR):BUILD_DIR=$$(BUILD_DIR)
-isEmpty(BUILD_DIR):BUILD_DIR=$$[BUILD_DIR]
-isEmpty(BUILD_DIR):BUILD_IN_SRC = yes
-
-!isEmpty(BUILD_IN_SRC):BUILD_DIR=$$OUT_PWD/../out
 include($${PROJECTROOT}/common.pri)
+preparePaths($$OUT_PWD/../out)
 include($$PROJECTROOT/src/lib%ProjectName%.pri)
 
 #win32:LIBS += -lUser32

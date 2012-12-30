@@ -55,13 +55,10 @@ TEMPLATE -= fakelib
 
 isEmpty(PROJECTROOT): PROJECTROOT = $$PWD/..
 include($${PROJECTROOT}/common.pri)
-#load($${PROJECTROOT}/common.pri)
+preparePaths($$OUT_PWD/../out)
 CONFIG += depend_includepath #?
 
 PROJECT_SRCPATH = $$PWD
-isEmpty(BUILD_DIR):BUILD_DIR=$$(BUILD_DIR)
-isEmpty(BUILD_DIR):BUILD_DIR=$$[BUILD_DIR]
-isEmpty(BUILD_DIR):BUILD_DIR=$$OUT_PWD #remove these?
 PROJECT_LIBDIR = $$qtLongName($$BUILD_DIR/lib)
 
 #for system include path
