@@ -130,12 +130,13 @@ defineReplace(qtLongName) {
 	return($$LONG_NAME)
 }
 
+#argument 1 is default dir if not defined
 defineTest(getBuildRoot) {
     !isEmpty($$2): unset(BUILD_DIR)
     isEmpty(BUILD_DIR) {
-        BUILD_DIR=$$[BUILD_DIR]
+        BUILD_DIR=$$(BUILD_DIR)
         isEmpty(BUILD_DIR) {
-            BUILD_DIR=$$(BUILD_DIR)
+            BUILD_DIR=$$[BUILD_DIR]
             isEmpty(BUILD_DIR) {
                 BUILD_DIR = yes
                 !isEmpty(BUILD_DIR) {
