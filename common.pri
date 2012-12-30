@@ -1,5 +1,5 @@
 # qmake common template pri file
-# Copyright (C) 2011 Wang Bin <wbsecg1@gmail.com>
+# Copyright (C) 2011-2013 Wang Bin <wbsecg1@gmail.com>
 # Shanghai, China.
 #
 # This program is free software; you can redistribute it and/or modify

@@ -5,10 +5,34 @@ This library can be easily included by other projects. Just include the pri file
 Clone into QtCreator/share/qtcreator/templates/wizards/libproj
 Restart your qtcreator. Then you can start with "File > New File or Project > Libraries > Perfect library soluton".
 
+Add an existing library:
+usually you just need to add 3 lines.
+
+PROJECTROOT = $$PWD/..              #optional. suppose the that library project's root dir is $$PWD/..; if that project use the same common.pri as this, PROJECTROOT can be this project's
+include(dir_of_XX/libXX.pri)        #resolve depends
+preparePaths($$OUT_PWD/../out)      #parameter is the build dir. if not parameter, build dir is Makefile's dir
+
+
+Building:
+RECOMMAND: run qmake with parameters like below recommand to avoid some depends problem
+qmake -r "BUILD_DIR=your_build_dir"
+
+In QtCreator, all generated files except Makefiles are in 'Build directory/out', Makefiles are in 'Build directory', You can change build directory in QtCreator 'Projects/General/Build directory'
+
+Directories:
+if BUILD_DIR is out, Qt version is 4.8.5
+out---.moc/4.8.5/moc_*.cpp
+	  .obj/subprojects/*.o
+	  .rcc/4.8.5/qrc_xxx.cpp
+	  .ui/4.8.5/ui_*.h
+	  bin/target(.exe), depended dll
+	  lib_win32(lib_unix ...)/*.so,*.a,*.lib,*.dll
+
 TODO:
-1.install files, dir selection
-2.version.h
-3.libxx.pri read version.h
+1. depends solution, use a seperate dir
+2. deployment
+
 
 wbsecg1@gmail.com
 2012-02-19
+last updated 2012-12-30
