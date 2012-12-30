@@ -138,9 +138,8 @@ defineTest(getBuildRoot) {
         isEmpty(BUILD_DIR) {
             BUILD_DIR=$$[BUILD_DIR]
             isEmpty(BUILD_DIR) {
-                BUILD_DIR = yes
-                !isEmpty(BUILD_DIR) {
-                    !isEmpty(1):BUILD_DIR=$$1
+                !isEmpty(1) {
+                    BUILD_DIR=$$1
                 } else {
                     BUILD_DIR = $$OUT_PWD
                     warning(BUILD_DIR not specified, using $$BUILD_DIR)
