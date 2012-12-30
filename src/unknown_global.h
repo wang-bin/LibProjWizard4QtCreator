@@ -20,17 +20,17 @@
 #ifndef %ProjectName:u%_GLOBAL_H
 #define %ProjectName:u%_GLOBAL_H
 
+/*TODO: %ProjectName:l%_version.h: _if __cpluspls namespace %ProjectName:u% { enum Version {} }*/
+#undef %ProjectName:u%_VERSION
 
-#undef LIB_VERSION
+#define %ProjectName:u%_VERSION_MAJOR 1	//((%ProjectName:u%_VERSION & 0xff0000)>>16)
+#define %ProjectName:u%_VERSION_MINOR 0	//((%ProjectName:u%_VERSION & 0xff00)>>8)
+#define %ProjectName:u%_VERSION_PATCH 0	//(%ProjectName:u%_VERSION & 0xff)
 
-#define MAJOR 1	//((LIB_VERSION&0xff0000)>>16)
-#define MINOR 0	//((LIB_VERSION&0xff00)>>8)
-#define PATCH 0	//(LIB_VERSION&0xff)
-
-#define VERSION_CHK(major, minor, patch) \
+#define %ProjectName:u%_VERSION_CHK(major, minor, patch) \
 	(((major&0xff)<<16) | ((minor&0xff)<<8) | (patch&0xff))
 
-#define LIB_VERSION VERSION_CHK(MAJOR, MINOR, PATCH)
+#define %ProjectName:u%_VERSION %ProjectName:u%_VERSION_CHK(%ProjectName:u%_VERSION_MAJOR, %ProjectName:u%_VERSION_MINOR, %ProjectName:u%_VERSION_PATCH)
 
 /*! Stringify \a x. */
 #define _TOSTR(x)   #x
@@ -38,9 +38,9 @@
 #define TOSTR(x)  _TOSTR(x)
 
 /* C++11 requires a space between literal and identifier */
-static const char* const version_string = TOSTR(MAJOR) "." TOSTR(MINOR) "." TOSTR(PATCH) "(" __DATE__ ", " __TIME__ ")";
-#define LIB_VERSION_STR		TOSTR(MAJOR) "." TOSTR(MINOR) "." TOSTR(PATCH)
-#define LIB_VERSION_STR_LONG	LIB_VERSION_STR "(" __DATE__ ", " __TIME__ ")"
+#define %ProjectName:u%_VERSION_STR		   TOSTR(%ProjectName:u%_VERSION_MAJOR) "." TOSTR(%ProjectName:u%_VERSION_MINOR) "." TOSTR(%ProjectName:u%_VERSION_PATCH)
+#define %ProjectName:u%_VERSION_STR_LONG   %ProjectName:u%_VERSION_STR "(" __DATE__ ", " __TIME__ ")"
+static const char* const %ProjectName:l%_version_string = %ProjectName:u%_VERSION_STR_LONG;
 
 
 
@@ -149,5 +149,5 @@ static const char* const version_string = TOSTR(MAJOR) "." TOSTR(MINOR) "." TOST
 #  undef Q_EXPORT
 #  define Q_EXPORT //Q_DECL_IMPORT //only for vc?
 #endif
-
+#define %ProjectName:u%_EXPORT
 #endif // %ProjectName:u%_GLOBAL_H
