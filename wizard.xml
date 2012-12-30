@@ -35,6 +35,7 @@ leave room for the Qt 4 target page.
 	<displayname xml:lang="zh">完美的库解决方案</displayname>;
 	<displaycategory>Libraries</displaycategory>
 	<files>
+		<file source="depends/depends.pro" openeditor="true"/>
 		<file source="src/libunknown.pro" target="src/lib%ProjectName%.pro" openeditor="true"/>
 		<file source="src/libunknown.pri" target="src/lib%ProjectName%.pri" openeditor="true"/>
 		<file source="src/unknown_global.h" target="src/%ProjectName:l%_global.h" openeditor="true"/>

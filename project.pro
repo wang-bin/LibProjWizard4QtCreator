@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = lib%ProjectName:l% test
+SUBDIRS = depends lib%ProjectName:l% test
 
 lib%ProjectName:l%.file = src/lib%ProjectName%.pro
 test.file = test/tst_%ProjectName%.pro
