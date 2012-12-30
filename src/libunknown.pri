@@ -1,5 +1,5 @@
 # qmake library building template pri file
-# Copyright (C) 2011 Wang Bin <wbsecg1@gmail.com>
+# Copyright (C) 2011-2013 Wang Bin <wbsecg1@gmail.com>
 # Shanghai, China.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -24,10 +24,10 @@
 #    TEMPLATE = lib
 #    QT -= gui
 #    CONFIG *= xx-buildlib
+#    STATICLINK = 1 #optional. default is 0, i.e. dynamically link
 #    PROJECTROOT = $$PWD/..
-#    STATICLINK = 1 #or 0
 #    include(libXX.pri)
-#    include($${PROJECTROOT}/common.pri)
+#    preparePaths($$OUT_PWD/../out)
 #    HEADERS = ...
 #    SOURCES = ...
 #    ...
@@ -36,7 +36,7 @@
 #    PROJECTROOT = $$PWD/..
 #    STATICLINK = 1 #or 0
 #    include(dir_of_XX/libXX.pri)
-#    include($${PROJECTROOT}/common.pri)
+#    preparePaths($$OUT_PWD/../out)
 #    HEADERS = ...
 #    SOURCES = ...
 #
