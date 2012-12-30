@@ -140,26 +140,29 @@ defineTest(getBuildRoot) {
                 BUILD_DIR = yes
                 !isEmpty(BUILD_DIR) {
                     !isEmpty(1):BUILD_DIR=$$1
+                } else {
+                    BUILD_DIR = $$OUT_PWD
+                    warning(BUILD_DIR not specified, using $$BUILD_DIR)
                 }
             }
         }
     }
     export(BUILD_DIR)
     message(BUILD_DIR=$$BUILD_DIR)
+    return(true)
 }
-##############################paths####################################
-#TRANSLATIONS += i18n/$${TARGET}_zh-cn.ts i18n/$${TARGET}_zh_CN.ts
 
+##############################paths####################################
 #for Qt2, Qt3 which does not have QT_VERSION. Qt4: $$[QT_VERSION]
 defineTest(preparePaths) {
     getBuildRoot($$1, $$2)
     MOC_DIR = $$BUILD_DIR/.moc/$${QT_VERSION}
     RCC_DIR = $$BUILD_DIR/.rcc/$${QT_VERSION}
     UI_DIR  = $$BUILD_DIR/.ui/$${QT_VERSION}
-    !build_pass:message(moc dir=$$MOC_DIR)
     #obj is platform dependent
     OBJECTS_DIR = $$qtLongName($$BUILD_DIR/.obj/$$TARGET)
-
+#before target name changed
+    !isEmpty(PROJECTROOT):TRANSLATIONS *= $$PROJECTROOT/i18n/$${TARGET}_zh-cn.ts $$PROJECTROOT/i18n/$${TARGET}_zh_CN.ts
     isEqual(TEMPLATE, app) {
         DESTDIR = $$BUILD_DIR/bin
 #	TARGET = $$qtLongName($$TARGET)
@@ -175,10 +178,8 @@ defineTest(preparePaths) {
     export(OBJECTS_DIR)
     export(DESTDIR)
     export(TARGET)
+    return(true)
 }
 COMMON_PRI_INCLUDED = 1
 
 } #end COMMON_PRI_INCLUDED
-	#before target name changed
-#TRANSLATIONS += i18n/$${TARGET}_zh-cn.ts #i18n/$${TARGET}_zh_CN.ts
-
