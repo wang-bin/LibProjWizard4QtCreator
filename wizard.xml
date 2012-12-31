@@ -45,7 +45,7 @@ leave room for the Qt 4 target page.
 		<file source="test/main.cpp" target="test/main.cpp" openeditor="false"/>
 		<file source="project.pro" target="%ProjectName%.pro" openproject="true"/>
 		<file source="common.pri" openeditor="false"/>
-		<file source="README" openeditor="true"/>
+		<file source="README" target="doc/README.pro.txt" openeditor="true"/>
 	</files>
 	<!-- Create a 2nd wizard page with parameters -->
 	<fieldpagetitle>Other</fieldpagetitle>
