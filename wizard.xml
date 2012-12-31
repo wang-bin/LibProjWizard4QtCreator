@@ -43,7 +43,7 @@ leave room for the Qt 4 target page.
 		<file source="src/unknown.cpp" target="src/%ProjectName:l%.cpp" openeditor="true"/>
 		<file source="test/tst_unknown.pro" target="test/tst_%ProjectName%.pro" openeditor="false"/>
 		<file source="test/main.cpp" target="test/main.cpp" openeditor="false"/>
-		<file source="project.pro" target="%ProjectName%.pro" openproject="false"/>
+		<file source="project.pro" target="%ProjectName%.pro" openproject="true"/>
 		<file source="common.pri" openeditor="false"/>
 		<file source="README" openeditor="true"/>
 	</files>
