@@ -130,19 +130,52 @@ defineReplace(qtLongName) {
 	return($$LONG_NAME)
 }
 
+lessThan(QT_MAJOR_VERSION, 5): {
+
+defineTest(write_file) {
+    !isEmpty(4): error("write_file(name, [content var, [append]]) requires one to three arguments.")
+    ##TODO: 1.how to replace old value
+##getting the value requires a function whose parameter has var name and return a string. join() is the only function
+## var name is $$2.
+## echo a string with "\n" will fail, so we can not use join
+    #val = $$join($$2, $$escape_expand(\n))$$escape_expand(\n)
+    isEmpty(3)|!isEqual(3, append) {
+        #win32:system("echo. > $$1")|return(false) #may has sh
+        #else
+        system("$$QMAKE_DEL_FILE $$1")
+    }
+    for(val, $$2) {
+        system("echo $$val >> $$1")|return(false)
+    }
+    return(true)
+}
+
+#defineTest(cache) {
+#    !isEmpty(4): error("cache(var, [set|add|sub] [transient] [super], [srcvar]) requires one to three arguments.")
+
+#}
+
+#}
+
+}
+
 #argument 1 is default dir if not defined
 defineTest(getBuildRoot) {
-    !isEmpty($$2): unset(BUILD_DIR)
+    !isEmpty(2): unset(BUILD_DIR)
     isEmpty(BUILD_DIR) {
         BUILD_DIR=$$(BUILD_DIR)
         isEmpty(BUILD_DIR) {
-            BUILD_DIR=$$[BUILD_DIR]
+            exists($$PROJECTROOT/.build.cache):include($$PROJECTROOT/.build.cache)
+message("BUILD_DIR=$$BUILD_DIR")
             isEmpty(BUILD_DIR) {
-                !isEmpty(1) {
-                    BUILD_DIR=$$1
-                } else {
-                    BUILD_DIR = $$OUT_PWD
-                    warning(BUILD_DIR not specified, using $$BUILD_DIR)
+                BUILD_DIR=$$[BUILD_DIR]
+                isEmpty(BUILD_DIR) {
+                    !isEmpty(1) {
+                        BUILD_DIR=$$1
+                    } else {
+                        BUILD_DIR = $$OUT_PWD
+                        warning(BUILD_DIR not specified, using $$BUILD_DIR)
+                    }
                 }
             }
         }
@@ -156,13 +189,12 @@ defineTest(getBuildRoot) {
 #for Qt2, Qt3 which does not have QT_VERSION. Qt4: $$[QT_VERSION]
 defineTest(preparePaths) {
     getBuildRoot($$1, $$2)
-    MOC_DIR = $$BUILD_DIR/.moc/$${QT_VERSION}
-    RCC_DIR = $$BUILD_DIR/.rcc/$${QT_VERSION}
-    UI_DIR  = $$BUILD_DIR/.ui/$${QT_VERSION}
+    MOC_DIR = $$BUILD_DIR/.moc/$${QT_VERSION}/$$TARGET
+    RCC_DIR = $$BUILD_DIR/.rcc/$${QT_VERSION}/$$TARGET
+    UI_DIR  = $$BUILD_DIR/.ui/$${QT_VERSION}/$$TARGET
     #obj is platform dependent
     OBJECTS_DIR = $$qtLongName($$BUILD_DIR/.obj/$$TARGET)
 #before target name changed
-    !isEmpty(PROJECTROOT):TRANSLATIONS *= $$PROJECTROOT/i18n/$${TARGET}_zh-cn.ts $$PROJECTROOT/i18n/$${TARGET}_zh_CN.ts
     isEqual(TEMPLATE, app) {
         DESTDIR = $$BUILD_DIR/bin
 #	TARGET = $$qtLongName($$TARGET)
@@ -170,14 +202,20 @@ defineTest(preparePaths) {
         win32: EXE_EXT = .exe
         CONFIG(release, debug|release): !isEmpty(QMAKE_STRIP): QMAKE_POST_LINK = -$$QMAKE_STRIP $$DESTDIR/$${TARGET}$${EXE_EXT} #.exe in win
     } else: DESTDIR = $$qtLongName($$BUILD_DIR/lib)
-    !build_pass:message(target: $$DESTDIR/$$TARGET)
+    !build_pass {
+        message(target: $$DESTDIR/$$TARGET)
+        !isEmpty(PROJECTROOT) {
+            TRANSLATIONS *= $$PROJECTROOT/i18n/$${TARGET}_zh-cn.ts $$PROJECTROOT/i18n/$${TARGET}_zh_CN.ts
+            export(TRANSLATIONS)
+        }
+    }
 #export vars outside this function
     export(MOC_DIR)
     export(RCC_DIR)
     export(UI_DIR)
     export(OBJECTS_DIR)
     export(DESTDIR)
-    export(TARGET)
+    #export(TARGET)
     return(true)
 }
 COMMON_PRI_INCLUDED = 1
