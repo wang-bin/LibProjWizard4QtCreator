@@ -42,7 +42,10 @@
 #
 
 NAME = %ProjectName%
-!isEmpty(LIB$$upper($$NAME)_PRI_INCLUDED):error("lib$${NAME}.pri already included"), unset(NAME)
+!isEmpty(LIB$$upper($$NAME)_PRI_INCLUDED): {
+	error("lib$${NAME}.pri already included")
+	unset(NAME)
+}
 #!isEmpty(LIB%ProjectName:u%_PRI_INCLUDED):error("lib%ProjectName%.pri already included")
 eval(LIB$$upper($$NAME)_PRI_INCLUDED = 1)
 
