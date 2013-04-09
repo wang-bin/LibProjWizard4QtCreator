@@ -57,8 +57,21 @@ cache(SOURCE_ROOT, set, SOURCE_ROOT)
 cache(mkspecs_cached, set, mkspecs_build)
 
 #add your compile tests here. this will compile tests in config.tests
-#qtCompileTest(avutil)|error("FFmpeg avutil is required, but compiler can not find it")
-
+EssentialDepends =
+OptionalDepends =
+for(d, EssentialDepends) {
+   !config_$$d {
+        CONFIG *= recheck
+   }
+   qtCompileTest($$d)|error("$$d is required, but compile test failed!")
+#   CONFIG -= recheck
+}
+!isEmpty(OptionalDepends) {
+    message("checking for optional features...")
+    for(d, OptionalDepends) {
+        qtCompileTest($$d)
+    }
+}
 
 #TODO: qmake -config
 !isEmpty(EssentialDepends)|!isEmpty(OptionalDepends) {

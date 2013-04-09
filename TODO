@@ -1,3 +1,5 @@
+0. Add config.tests and scripts
+
 1. if has Qt module(s), then include qglobal.h in xx_global.h. Otherwise, use os.h, compiler.h, cpu.h
 
 
