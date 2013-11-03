@@ -14,3 +14,8 @@ OptionalDepends =
 
 include(root.pri)
 
+PACKAGE_VERSION = %LIB_VERSION%
+PACKAGE_NAME= %ProjectName%
+
+include(pack.pri)
+#packageSet(%LIB_VERSION%, %ProjectName%)
