@@ -22,7 +22,7 @@
 
 #include "%ProjectName:l%_global.h"
 
-class Q_EXPORT %ProjectName%
+class %ProjectName:u%_EXPORT %ProjectName%
 {
 
 };
