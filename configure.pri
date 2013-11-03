@@ -1,3 +1,5 @@
+#Designed by Wang Bin(Lucas Wang). 2013 <wbsecg1@gmail.com>
+
 ### ONLY FOR Qt4. common.pri must be included before it so that write_file() can be used#######
 ### .qmake.cache MUST be created before it!
 ####ASSUME compile tests and .qmake.cache is in project out root dir
@@ -14,9 +16,8 @@ defineTest(cache) {
     !exists($$_QMAKE_CACHE_QT4_) {
         log("Info: creating cache file $$_QMAKE_CACHE_QT4_")
         write_file($$_QMAKE_CACHE_QT4_)|return(false)
-     }
+    }
     isEmpty(1):return(true)
-
     !isEmpty(2):isEqual(2, set):mode_set=1
     isEmpty(3) {
         isEmpty(mode_set):error("cache(): modes other than 'set' require a source variable.")
@@ -42,7 +43,7 @@ defineTest(cache) {
 ##TODO: remove existing lines contain $$srcvar
     #because write_file() will write 1 line for each value(seperated by space), so the value must be closed with "", then it's 1 value, not list
 #erase the existing var and value pair
-    win32:isEmpty(QMAKE_SH) {
+    win32 {#:isEmpty(QMAKE_SH) { #windows sucks. can not access the cache
 
     } else {
 #use sed for unix or msys
@@ -69,7 +70,7 @@ equals(MAKEFILE_GENERATOR, UNIX) {
 
 defineTest(qtRunLoggedCommand) {
     msg = "+ $$1"
-    write_file($$QMAKE_CONFIG_LOG, msg, append)
+    write_file($$QMAKE_CONFIG_LOG, msg, append)#|error("write file failed") #for debug
     system("$$1 >> \"$$QMAKE_CONFIG_LOG\" 2>&1")|return(false)
     return(true)
 }
@@ -97,8 +98,9 @@ defineTest(qtCompileTest) {
 
     test_dir = $$QMAKE_CONFIG_TESTS_DIR/$$1
     test_out_dir = $$shadowed($$test_dir)
-    test_cmd_base = "cd $$system_quote($$system_path($$test_out_dir)) &&"
-
+    #system always call win32 cmd in windows, so we need "cd /d" to ensure success cd to a different partition
+    win32:test_cmd_base = "cd /d $$system_quote($$system_path($$test_out_dir)) &&"
+    else: test_cmd_base = "cd $$system_quote($$system_path($$test_out_dir)) &&"
     # Disable qmake features which are typically counterproductive for tests
     qmake_configs = "\"CONFIG -= qt debug_and_release app_bundle lib_bundle\""
 
