@@ -95,22 +95,26 @@ DEPENDPATH *= $$PROJECT_SRCPATH
 #	win32: LIBS += -lUser32
 # The following may not need to change
 
-	#TEMPLATE = lib
-	VERSION = $$LIB_VERSION
-	TARGET = $$PROJECT_TARGETNAME
-	DESTDIR= $$PROJECT_LIBDIR
+	!CONFIG(plugin) {
+		#TEMPLATE = lib
+		VERSION = $$LIB_VERSION
+		DESTDIR= $$PROJECT_LIBDIR
+	}
 
+	TARGET = $$PROJECT_TARGETNAME ##I commented out this before, why?
 	CONFIG *= create_prl #
 	isEqual(STATICLINK, 1) {
 		CONFIG -= shared dll ##otherwise the following shared is true, why?
 		CONFIG *= staticlib
 	} else {
-		DEFINES += Q_DLL_LIBRARY #win32-msvc*
+		DEFINES += BUILD_$$upper($$NAME)_LIB #win32-msvc*
 		CONFIG *= shared #shared includes dll
 	}
 
 	shared {
-		!isEqual(DESTDIR, $$BUILD_DIR/bin): DLLDESTDIR = $$BUILD_DIR/bin #copy shared lib there
+		!CONFIG(plugin) {
+			!isEqual(DESTDIR, $$BUILD_DIR/bin): DLLDESTDIR = $$BUILD_DIR/bin #copy shared lib there
+		}
 		CONFIG(release, debug|release): !isEmpty(QMAKE_STRIP): QMAKE_POST_LINK = -$$QMAKE_STRIP $$PROJECT_LIBDIR/$$qtSharedLib($$NAME)
 
 		#copy from the pro creator creates.

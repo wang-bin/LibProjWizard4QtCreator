@@ -142,7 +142,7 @@ static const char* const %ProjectName:l%_version_string = %ProjectName:u%_VERSIO
 #endif
 
 
-#if defined(Q_DLL_LIBRARY)
+#if defined(BUILD_%ProjectName:u%_LIB)
 #  undef %ProjectName:u%_EXPORT
 #  define %ProjectName:u%_EXPORT Q_DECL_EXPORT
 #else
