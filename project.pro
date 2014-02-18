@@ -1,3 +1,5 @@
+include(root.pri)
+
 TEMPLATE = subdirs
 SUBDIRS = depends lib%ProjectName:l% test
 
@@ -12,7 +14,7 @@ OTHER_FILES += README
 EssentialDepends =
 OptionalDepends =
 
-include(root.pri)
+runConfigTests()
 
 PACKAGE_VERSION = %LIB_VERSION%
 PACKAGE_NAME= %ProjectName%
